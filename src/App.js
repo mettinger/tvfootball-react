@@ -14,44 +14,21 @@ class App extends Component {
   }
 
   setValue = async newValue => {
-    //event.preventDefault();
     const accounts = await web3.eth.getAccounts();
-
     await SimpleStorage.methods.set(newValue).send({
       from: accounts[0],
     });
-
     this.setState({value: newValue });
   };
 
-  clickOne = () => {
-    console.log('one');
-    this.setValue(1);
-  }
-
-  clickTwo = () => {
-    console.log('two');
-    this.setValue(2);
-  }
-
-  clickThree = () => {
-    console.log('three');
-    this.setValue(3);
-  }
-
-  clickFour = () => {
-    console.log('four');
-    this.setValue(4);
+  onClick = (buttonLabel) => {
+    console.log(buttonLabel);
+    this.setValue(buttonLabel);
   }
 
   async componentDidMount() {
     const value = await SimpleStorage.methods.get().call();
     this.setState({ value });
-
-    /*
-    SimpleStorage.getPastEvents("allEvents",
-                                {fromBlock: 0, toBlock: 'latest'},
-                                (error, events) => { console.log(events); });*/
   }
 
   render() {
@@ -61,13 +38,13 @@ class App extends Component {
 
         <Grid>
           <Grid.Row>
-            <Button primary onClick={this.clickOne}>1</Button>
-            <Button primary onClick={this.clickTwo}>2</Button>
+            <Button primary onClick={()=>this.onClick(1)}>1</Button>
+            <Button primary onClick={()=>this.onClick(2)}>2</Button>
           </Grid.Row>
 
           <Grid.Row>
-            <Button primary onClick={this.clickThree}>3</Button>
-            <Button primary onClick={this.clickFour}>4</Button>
+            <Button primary onClick={()=>this.onClick(3)}>3</Button>
+            <Button primary onClick={()=>this.onClick(4)}>4</Button>
           </Grid.Row>
         </Grid>
         <div>{this.state.value}</div>
