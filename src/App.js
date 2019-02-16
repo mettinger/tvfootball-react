@@ -7,10 +7,12 @@ import { Button, Container, Grid } from 'semantic-ui-react';
 
 class App extends Component {
 
+  counter = 0;
+
   constructor(props) {
     super(props);
     this.state = { value: ''};
-    SimpleStorage.events.Change({}, (error, events) => { this.setState({value: events.returnValues.newVal })});
+    //SimpleStorage.events.Change({}, (error, events) => { this.setState({value: events.returnValues.newVal })});
   }
 
   setValue = async newValue => {
@@ -27,8 +29,27 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    this.timerID = setInterval( () => this.tick(), 250);
     const value = await SimpleStorage.methods.get().call();
     this.setState({ value });
+  }
+
+
+  async tick() {
+    const value = await SimpleStorage.methods.get().call();
+    console.log(this.counter);
+    console.log(value);
+    this.counter += 1;
+
+    if (value !== this.state.value) {
+      this.setState({ value});
+      console.log("change: ");
+      console.log(value);
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 
   render() {
