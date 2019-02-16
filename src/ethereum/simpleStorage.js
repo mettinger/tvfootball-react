@@ -1,5 +1,5 @@
 import web3 from './web3';
-import SimpleStorage from './build/SimpleStorage.json';
+import SimpleStorage from './SimpleStorage.json';
 
 
 const instance = new web3.eth.Contract(
