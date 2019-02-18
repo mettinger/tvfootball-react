@@ -12,7 +12,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { value: ''};
-    //SimpleStorage.events.Change({}, (error, events) => { this.setState({value: events.returnValues.newVal })});
+    SimpleStorage.events.Change({}, (error, events) => { this.setState({value: events.returnValues.newVal })});
   }
 
   setValue = async newValue => {
@@ -29,12 +29,13 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    this.timerID = setInterval( () => this.tick(), 250);
+    //this.timerID = setInterval( () => this.tick(), 250);
     const value = await SimpleStorage.methods.get().call();
     this.setState({ value });
   }
 
 
+/*
   async tick() {
     const value = await SimpleStorage.methods.get().call();
     console.log(this.counter);
@@ -46,7 +47,7 @@ class App extends Component {
       console.log("change: ");
       console.log(value);
     }
-  }
+  }*/
 
   componentWillUnmount() {
     clearInterval(this.timerID);
